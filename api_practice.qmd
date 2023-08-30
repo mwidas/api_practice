@@ -1,0 +1,31 @@
+---
+title: "api_practice"
+format: html
+editor: visual
+---
+
+```{r}
+library(dataRetrieval)
+library(tidyverse)
+```
+
+```{r}
+# near Ventura, CA:
+# siteNumber <- "11118500"
+# parameterCd <- "00060" # Discharge
+# startDate <- "2023-08-19"
+# endDate <- "2023-08-22"
+
+discharge <- readNWISdv("11118500", "00060", "2023-08-19", "2023-08-22", statCd = 00003)
+```
+
+```{r}
+ggplot(discharge, aes(x = Date, y = X_00060_00003)) +
+  geom_point() +
+  labs(y = "discharge ft^3/s")
+  
+```
+
+```{r}
+maximum_discharge <- max(discharge$X_00060_00003)
+```
