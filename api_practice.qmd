@@ -7,7 +7,10 @@ editor: visual
 ```{r}
 library(dataRetrieval)
 library(tidyverse)
+library(metajam)
 ```
+
+## Exercise 1
 
 ```{r}
 # near Ventura, CA:
@@ -28,4 +31,56 @@ ggplot(discharge, aes(x = Date, y = X_00060_00003)) +
 
 ```{r}
 maximum_discharge <- max(discharge$X_00060_00003)
+```
+
+## Exercise 2
+
+```{r}
+# # set inputs
+# data_obj <- "https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A9e123f84-ce0d-4094-b898-c9e73680eafa"
+# path <- "~/Desktop"
+# # download data and metadata
+# library(metajam)
+# download_d1_data(data_obj, path)
+# # Returned
+# #[1] "~/Desktop/doi_10.18739_A2DP3X__Alaska_Schools_Rentention2009_15"
+```
+
+```{r}
+data_obj <- "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3A7fc6f6db-c5ea-426a-a743-1f2edafb43b8"
+# or "."
+path <- "~/EDS214/api_practice"
+# download data and metadata
+# library(metajam)
+download_d1_data(data_obj, path)
+# # Returned
+
+```
+
+```{r}
+#reading csv into R; expecting a folder so need to give it a folder
+ak_household <- read_d1_files("doi_10.5063_F1N58JPP__household_language__csv")
+```
+
+```{r}
+# i want to make a data frame not the metadata
+ak_household_data <- ak_household$data
+```
+
+```{r}
+head(ak_household_data)
+```
+
+```{r}
+ak_household_english <- ak_household_data %>% 
+  filter(Year %in% c(2009:2015)) %>% 
+  group_by(Year) %>% 
+  summarise(only_english_percent = sum(speak_only_english)/ sum(total))
+```
+
+```{r}
+ak_household_french <- ak_household_data %>% 
+  filter(Year %in% c(2009:2015)) %>% 
+  group_by(Year) %>% 
+  summarise(only_french_percent = sum(french_or_french_creole, na.rm = TRUE)/ sum(total))
 ```
