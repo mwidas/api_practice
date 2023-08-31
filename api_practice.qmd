@@ -82,5 +82,5 @@ ak_household_english <- ak_household_data %>%
 ak_household_french <- ak_household_data %>% 
   filter(Year %in% c(2009:2015)) %>% 
   group_by(Year) %>% 
-  summarise(only_french_percent = sum(french_or_french_creole, na.rm = TRUE)/ sum(total))
+  summarise(only_french_percent = sum(french_or_french_creole)/ sum(total))
 ```
